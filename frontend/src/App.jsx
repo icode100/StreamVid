@@ -9,15 +9,20 @@ const App = () => {
   const [overlays, setOverlays] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
+  const [url,setUrl] = useState("");
 
+
+  const handleChange = (event)=>{
+    setUrl(event.target.value);
+  }
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
-      // Verify token validity on backend (optional)
-      // If valid, set isAuthenticated to true
     }
   }, []);
+
+
 
   useEffect(() => {
     if (token && isAuthenticated) {
@@ -67,7 +72,10 @@ const App = () => {
           path="/app"
           element={
             <div>
-              <VideoPlayer url="YOUR_RTSP_URL" overlays={overlays} />
+              <div>
+                <input type="text" placeholder='enter your URL' onChange={handleChange}/>
+              </div>
+              <VideoPlayer url={url} overlays={overlays} />
               <OverlayControls overlays={overlays} onOverlayChange={handleOverlayChange} onLogout={handleLogout} />
             </div>
           }
